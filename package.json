@@ -1,15 +1,21 @@
 {
-  "name": "play-gba-server",
+  "name": "play-gb-server",
   "version": "0.0.1",
   "description": "Super simple Twitch plays * clone",
   "main": "lib/server.js",
   "scripts": {
     "build": "babel src -d lib",
-    "start": "node lib/server"
+    "start": "babel-node src/server",
+    "server": "node lib/server"
   },
   "author": "Dan Cahoon",
   "license": "MIT",
   "dependencies": {
+    "canvas": "^1.3.5",
+    "dotenv": "^1.2.0",
+    "gameboy": "git+https://git@github.com/faiq/gameboy.git",
+    "msgpack": "^1.0.2",
+    "redis": "^2.4.2",
     "socket.io": "^1.3.7"
   },
   "devDependencies": {
@@ -17,6 +23,8 @@
     "babel-preset-es2015": "^6.3.13"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   }
 }

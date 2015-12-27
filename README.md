@@ -1,1 +1,1 @@
-# Play GBA
+# Play GB Server
