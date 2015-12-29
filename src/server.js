@@ -1,12 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.load();
+
 import fs from 'fs';
+import crypto from 'crypto';
 import Server from 'socket.io';
 import Emulator from './emulator';
 import { MOVES } from './moves';
 import redis from './redis';
-import crypto from 'crypto';
-import msgpack from 'msgpack-lite';
 
 if (!process.env.PORT) {
   console.log('Please specify PORT in ENV');
@@ -24,6 +24,7 @@ const rom = fs.readFileSync(process.env.ROM_FILE);
 const hash = md5.update(rom).digest('hex');
 
 let emu = new Emulator();
+let count = 0;
 
 function load() {
   emu.on('error', () => {
@@ -53,21 +54,29 @@ function load() {
     setTimeout(() => {
       let snap = emu.snapshot();
       if (snap) {
-        redis.set('gameState:' + hash, JSON.stringify(snap))
+        redis.set('gameState:' + hash, JSON.stringify(snap));
         console.log(new Date + ' - game saved!');
-        save()
+        save();
       }
     }, 60000)
   }
 }
 
-console.log('Server started on port 8080');
-
 io.on('connection', (socket) => {
-  console.log('Someone connected');
+  count += 1;
+  io.emit('player count', count);
+  console.log('Someone connected, that makes ' + count);
+
   socket.on('disconnect', () => {
-    console.log('Someone disconnected');
+    count -= 1;
+    io.emit('player count', count);
+    console.log('Someone disconnected, that makes ' + count);
   });
+
+  emu.getFrame((frame) => {
+    socket.emit('frame', frame.toString('base64'));
+  });
+
   socket.on('message', (user, message) => {
     console.log("Message received from " + user.name + ": " + message);
     const move = message.trim().toLowerCase();
@@ -78,3 +87,4 @@ io.on('connection', (socket) => {
 });
 
 load();
+console.log('Server started on port ' + process.env.PORT);

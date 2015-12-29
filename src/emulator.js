@@ -35,6 +35,17 @@ export default class Emulator extends EventEmitter {
     this.running = true;
   }
 
+  getFrame(cb) {
+    if (!this.running) return;
+    this.canvas.toBuffer((err, buf) => {
+      if (err) {
+        throw err;
+      } else {
+        cb(buf);
+      }
+    });
+  }
+
   snapshot() {
     if (!this.running) return;
     return this.gameboy.saveState();
@@ -58,7 +69,7 @@ export default class Emulator extends EventEmitter {
     this.gameboy.JoyPadEvent = () => {};
     this.destroyed = true;
     this.running = false;
-    this.canvas = null
+    this.canvas = null;
     this.gameboy = null;
     return this;
   }
