@@ -8,15 +8,12 @@ import Emulator from './emulator';
 import { MOVES } from './moves';
 import redis from './redis';
 
-if (!process.env.PORT) {
-  console.log('Please specify PORT in ENV');
-  process.exit(1);
-}
 if (!process.env.ROM_FILE) {
   console.log('Please specify ROM_FILE in ENV');
   process.exit(1);
 }
 
+const port = process.env.PORT || '8090';
 const io = new Server().attach(process.env.PORT);
 const md5 = crypto.createHash('md5');
 

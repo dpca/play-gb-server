@@ -5,7 +5,7 @@
   "main": "lib/server.js",
   "scripts": {
     "build": "babel src -d lib",
-    "start": "babel-node src/server",
+    "dev": "babel-node src/server",
     "server": "node lib/server"
   },
   "author": "Dan Cahoon",
