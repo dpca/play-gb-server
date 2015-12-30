@@ -41,3 +41,6 @@ and serve with:
 ```bash
 $ npm run server
 ```
+
+Consider using something like [pm2](http://pm2.keymetrics.io/) to run in
+production.
