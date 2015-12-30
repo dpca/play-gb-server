@@ -14,7 +14,7 @@ if (!process.env.ROM_FILE) {
 }
 
 const port = process.env.PORT || '8090';
-const io = new Server().attach(process.env.PORT);
+const io = new Server().attach(port);
 const md5 = crypto.createHash('md5');
 
 const rom = fs.readFileSync(process.env.ROM_FILE);
@@ -84,4 +84,4 @@ io.on('connection', (socket) => {
 });
 
 load();
-console.log('Server started on port ' + process.env.PORT);
+console.log('Server started on port ' + port);
