@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/github/dpca/play-gb-server/badges/gpa.svg)](https://codeclimate.com/github/dpca/play-gb-server)
+
+* * *
+
 # Play GB Server
 
 Server for the Play GB Client. Lives in the cloud, or locally if you prefer.
